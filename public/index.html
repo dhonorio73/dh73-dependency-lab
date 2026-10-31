@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#17172b">
+    <title>Dh73 Dependency Lab</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#overview" aria-label="Dh73 Dependency Lab, início">
+          <span class="brand-mark" aria-hidden="true">⌘</span>
+          <span>dh73lab</span>
+        </a>
+        <p class="sidebar-label">Workspace</p>
+        <nav class="navigation" aria-label="Navegação principal">
+          <a class="nav-link active" href="#overview"><span aria-hidden="true">▦</span> Visão geral</a>
+          <a class="nav-link" href="#packages"><span aria-hidden="true">⬡</span> Dependências <span id="nav-count" class="nav-count">0</span></a>
+        </nav>
+        <div class="offline-card">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div><strong>Modo offline</strong><span>Seus dados ficam aqui.</span></div>
+        </div>
+        <div class="sidebar-footer">DH73 DEPENDENCY LAB <span>v0.1.0</span></div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>Workspace <span class="breadcrumb">/</span> <strong>Visão geral</strong></div>
+          <div class="local-status"><span class="status-dot" aria-hidden="true"></span> Análise local</div>
+        </header>
+
+        <section id="overview" class="hero">
+          <div>
+            <p class="eyebrow">Dependency overview</p>
+            <h1 id="project-name">Dh73 Dependency Lab <span aria-hidden="true">✳</span></h1>
+            <p class="hero-copy">Uma visão clara das dependências do seu projeto.</p>
+          </div>
+          <div class="hero-actions">
+            <label class="button button-secondary" for="lockfile-input"><span aria-hidden="true">↥</span> Abrir lockfile</label>
+            <input id="lockfile-input" class="visually-hidden" type="file" accept=".json,application/json">
+            <label class="button button-secondary" for="database-input"><span aria-hidden="true">↥</span> Importar base OSV</label>
+            <input id="database-input" class="visually-hidden" type="file" accept=".json,application/json">
+            <button id="demo-button" class="button button-primary" type="button"><span aria-hidden="true">↻</span> Ver demonstração</button>
+          </div>
+        </section>
+
+        <div id="error-banner" class="error-banner" role="alert" hidden></div>
+
+        <section class="notice" aria-label="Aviso sobre os dados">
+          <span class="notice-icon" aria-hidden="true">i</span>
+          <p id="notice-copy"><strong>Ambiente de demonstração.</strong> Os avisos são fictícios e locais — isto não é uma auditoria de segurança.</p>
+          <span class="offline-pill">OFFLINE</span>
+        </section>
+
+        <section class="stats-grid" aria-label="Resumo da análise">
+          <article class="stat-card">
+            <div class="stat-label">Pacotes analisados <span class="stat-icon purple" aria-hidden="true">⬡</span></div>
+            <strong id="stat-packages" class="stat-value">—</strong><span class="stat-note">encontrados no lockfile</span>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Avisos encontrados <span class="stat-icon red" aria-hidden="true">△</span></div>
+            <strong id="stat-advisories" class="stat-value">—</strong><span class="stat-note">no conjunto local fictício</span>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Desatualizados <span class="stat-icon amber" aria-hidden="true">↻</span></div>
+            <strong id="stat-outdated" class="stat-value">—</strong><span id="stat-outdated-note" class="stat-note">abaixo da versão no snapshot</span>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Sem versão de referência <span class="stat-icon blue" aria-hidden="true">?</span></div>
+            <strong id="stat-unknown" class="stat-value">—</strong><span class="stat-note">não classificados</span>
+          </article>
+        </section>
+
+        <section id="packages" class="packages-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Dependências <span id="heading-count" class="heading-count">0</span></h2>
+              <p>Pacotes encontrados no arquivo de lock.</p>
+            </div>
+            <span id="snapshot-date" class="snapshot-date"><span class="status-dot" aria-hidden="true"></span> Carregando dados locais</span>
+          </div>
+          <div class="table-toolbar">
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="package-search" type="search" placeholder="Buscar pacote..." aria-label="Buscar pacote"><kbd>/</kbd></label>
+            <label class="filter-label" for="package-filter">Filtrar:
+              <select id="package-filter" aria-label="Filtrar dependências">
+                <option value="all">Todas as dependências</option>
+                <option value="advisory">Com avisos</option>
+                <option value="outdated">Desatualizadas</option>
+                <option value="unknown">Sem dados</option>
+              </select>
+            </label>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Nome do pacote</th><th>Versão instalada</th><th>Versão snapshot</th><th>Status</th><th>Avisos</th></tr></thead>
+              <tbody id="package-rows"></tbody>
+            </table>
+            <div id="empty-state" class="empty-state" hidden><strong>Nenhum pacote encontrado</strong><span>Tente mudar a busca ou o filtro selecionado.</span></div>
+          </div>
+          <div class="panel-footer">
+            <span id="result-count">Carregando dependências...</span>
+            <span>Os resultados não comprovam que um pacote seja seguro.</span>
+          </div>
+        </section>
+
+        <footer class="page-footer"><span>Feito para explorar dependências com clareza.</span><span>Local · Sem conexão externa</span></footer>
+      </main>
+    </div>
+  </body>
+</html>

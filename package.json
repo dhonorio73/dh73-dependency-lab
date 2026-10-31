@@ -1,0 +1,11 @@
+{
+  "name": "dh73-dependency-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Protótipo educativo e offline para analisar dependências de package-lock.json",
+  "scripts": {
+    "start": "node src/server.js",
+    "demo": "node src/cli.js --demo",
+    "test": "node --test"
+  }
+}

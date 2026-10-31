@@ -1,0 +1,38 @@
+{
+  "source": "Dh73 Dependency Lab — conjunto fictício local de demonstração",
+  "observedAt": "2026-10-31",
+  "packages": {
+    "lodash": {
+      "latestVersion": "4.17.21",
+      "vulnerabilities": [
+        {
+          "id": "DEMO-2026-001",
+          "summary": "Aviso fictício para demonstrar uma versão vulnerável.",
+          "severity": "high",
+          "affectedVersions": ["4.17.20"],
+          "fixedVersion": "4.17.21"
+        }
+      ]
+    },
+    "left-pad": {
+      "latestVersion": "1.3.0",
+      "vulnerabilities": []
+    },
+    "@demo/ui-kit": {
+      "latestVersion": "2.4.0",
+      "vulnerabilities": [
+        {
+          "id": "DEMO-2026-002",
+          "summary": "Aviso fictício de demonstração; não representa um registro real.",
+          "severity": "moderate",
+          "affectedVersions": ["2.2.0"],
+          "fixedVersion": "2.3.1"
+        }
+      ]
+    },
+    "is-number": {
+      "latestVersion": "7.0.0",
+      "vulnerabilities": []
+    }
+  }
+}
