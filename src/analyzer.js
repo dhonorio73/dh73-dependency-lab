@@ -445,10 +445,16 @@ function formatReport(report) {
   return lines.join("\n");
 }
 
-module.exports = {
+const analyzerApi = {
   analyzeLockfile,
   compareVersions,
   formatReport,
   normalizeOsvDatabase,
   validateIntelDatabase,
 };
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = analyzerApi;
+} else {
+  globalThis.DependencyAnalyzer = analyzerApi;
+}

@@ -7,6 +7,11 @@ const { analyzeLockfile, validateIntelDatabase } = require("./analyzer");
 
 const projectDirectory = path.resolve(__dirname, "..");
 const publicDirectory = path.join(projectDirectory, "public");
+const sharedStaticFiles = {
+  "/analyzer.js": path.join(projectDirectory, "src", "analyzer.js"),
+  "/data/demo-intel.json": path.join(projectDirectory, "data", "demo-intel.json"),
+  "/examples/package-lock.json": path.join(projectDirectory, "examples", "package-lock.json"),
+};
 const demoLockfilePath = path.join(projectDirectory, "examples", "package-lock.json");
 const demoIntelPath = path.join(projectDirectory, "data", "demo-intel.json");
 const maximumBodySize = 50 * 1024 * 1024;
@@ -52,7 +57,7 @@ function readRequestBody(request) {
     });
     request.on("end", () => {
       if (tooLarge) {
-        const error = new Error("O arquivo excede o limite de 5 MB.");
+        const error = new Error("O arquivo excede o limite de 50 MB.");
         error.statusCode = 413;
         reject(error);
         return;
@@ -74,9 +79,14 @@ function serveStatic(request, response, pathname) {
   }
 
   const requestedPath = decodedPath === "/" ? "/index.html" : decodedPath;
-  const filePath = path.resolve(publicDirectory, `.${requestedPath}`);
+  const filePath = sharedStaticFiles[requestedPath] ||
+    path.resolve(publicDirectory, `.${requestedPath}`);
+  const isSharedStaticFile = Object.prototype.hasOwnProperty.call(sharedStaticFiles, requestedPath);
   const relativePath = path.relative(publicDirectory, filePath);
-  if (relativePath.startsWith(`..${path.sep}`) || relativePath === ".." || path.isAbsolute(relativePath)) {
+  if (
+    !isSharedStaticFile &&
+    (relativePath.startsWith(`..${path.sep}`) || relativePath === ".." || path.isAbsolute(relativePath))
+  ) {
     response.writeHead(403);
     response.end("Acesso negado.");
     return;

@@ -24,7 +24,13 @@ Ferramenta educativa, local e offline para explorar dependências de projetos No
 
 Node.js 18 ou superior. Não é necessário instalar pacotes nem executar `npm install`.
 
-## Executar a interface
+## Publicação gratuita no GitHub Pages
+
+O workflow `.github/workflows/pages.yml` publica automaticamente a interface estática quando há push para `main`. No GitHub, abra **Settings → Pages** e selecione **GitHub Actions** como fonte de publicação. Depois que o workflow terminar, a página estará disponível em `https://dhonorio73.github.io/dh73-dependency-lab/`.
+
+No GitHub Pages, o analisador, a demonstração, o lockfile selecionado e a base OSV importada são processados no navegador. Nenhum lockfile ou arquivo OSV é enviado ao servidor. O serviço hospeda os arquivos estáticos; não executa o servidor Node nem oferece API.
+
+## Executar a interface localmente
 
 Na pasta `Dh73-Dependency-Lab`:
 
@@ -32,11 +38,11 @@ Na pasta `Dh73-Dependency-Lab`:
 npm start
 ```
 
-Abra `http://127.0.0.1:4173` no navegador. Por padrão, a interface carrega uma demonstração local com o lockfile de `examples/package-lock.json` e os dados fictícios de `data/demo-intel.json`.
+Abra `http://127.0.0.1:4173` no navegador. A interface funciona tanto no GitHub Pages quanto no servidor local. Por padrão, carrega uma demonstração com o lockfile de `examples/package-lock.json` e os dados fictícios de `data/demo-intel.json`.
 
 - **Importar base OSV** carrega um JSON OSV com o formato `{"vulns":[...]}` (ou uma lista JSON de avisos). A análise usa entradas `affected` do ecossistema `npm`, incluindo intervalos `SEMVER` com eventos `introduced`, `fixed`, `last_affected` e `limit`, além de versões afetadas explicitamente listadas. A data exibida é a maior data `modified` encontrada nos avisos.
-- **Abrir lockfile** carrega outro `package-lock.json` v2 ou v3. A análise é feita pelo servidor local, sem enviar dados à rede.
-- O arquivo OSV é mantido somente na memória do processo enquanto o servidor estiver rodando. Ele não é copiado para o projeto nem atualizado automaticamente; ao reiniciar o servidor, importe a base novamente. O limite de importação é 50 MB.
+- **Abrir lockfile** carrega outro `package-lock.json` v2 ou v3. A análise ocorre inteiramente no navegador, sem enviar dados à rede.
+- O arquivo OSV importado fica somente na memória da página e não é copiado para o projeto nem atualizado automaticamente; ao recarregar a página, importe a base novamente. O limite de importação é 50 MB.
 - **Ver demonstração** descarta a base OSV ativa e volta ao conjunto fictício.
 
 Para mudar a porta:
@@ -87,7 +93,7 @@ Os testes cobrem classificações de dependências atuais, desatualizadas, vulne
 
 Sem importar uma base, a demonstração utiliza `data/demo-intel.json`; seus avisos, versões e descrições são fictícios e não correspondem a vulnerabilidades confirmadas. Depois de importar um arquivo OSV, a interface usa os avisos desse arquivo local.
 
-O programa não consulta o npm, GitHub, OSV ou qualquer outro serviço. Não há atualização automática nem transmissão de dados: a base OSV deve ser obtida e atualizada pelo usuário fora da aplicação e importada localmente.
+O programa não consulta o npm, GitHub, OSV ou qualquer outro serviço. Não há atualização automática nem transmissão dos arquivos analisados: a base OSV deve ser obtida e atualizada pelo usuário fora da aplicação e importada localmente. A hospedagem GitHub Pages entrega apenas os arquivos estáticos da interface.
 
 ## Limitações
 

@@ -22,6 +22,8 @@ const elements = {
 };
 
 let report = null;
+let activeIntel = null;
+let activeLockfile = null;
 
 function makeElement(tag, className, text) {
   const element = document.createElement(tag);
@@ -145,24 +147,43 @@ function renderReport(nextReport) {
   renderRows();
 }
 
-async function requestReport(url, options) {
+function showError(message) {
+  elements.errorBanner.textContent = message;
+  elements.errorBanner.hidden = false;
+}
+
+function analyzeAndRender(lockfile, intel) {
+  const nextReport = window.DependencyAnalyzer.analyzeLockfile(lockfile, intel);
+  activeLockfile = lockfile;
+  activeIntel = intel;
+  renderReport(nextReport);
+}
+
+async function loadDemo() {
   elements.errorBanner.hidden = true;
   elements.errorBanner.textContent = "";
   elements.demoButton.disabled = true;
   try {
-    const response = await fetch(url, options);
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || `Falha ao carregar dados (HTTP ${response.status}).`);
-    renderReport(result);
+    const [lockfileResponse, intelResponse] = await Promise.all([
+      fetch("./examples/package-lock.json"),
+      fetch("./data/demo-intel.json"),
+    ]);
+    if (!lockfileResponse.ok || !intelResponse.ok) {
+      throw new Error("Não foi possível carregar os arquivos locais da demonstração.");
+    }
+    const [lockfile, intel] = await Promise.all([
+      lockfileResponse.json(),
+      intelResponse.json(),
+    ]);
+    analyzeAndRender(lockfile, intel);
   } catch (error) {
-    elements.errorBanner.textContent = error.message || "Não foi possível carregar os dados locais.";
-    elements.errorBanner.hidden = false;
+    showError(error.message || "Não foi possível carregar os dados locais.");
   } finally {
     elements.demoButton.disabled = false;
   }
 }
 
-elements.demoButton.addEventListener("click", () => requestReport("/api/demo"));
+elements.demoButton.addEventListener("click", loadDemo);
 elements.search.addEventListener("input", renderRows);
 elements.filter.addEventListener("change", renderRows);
 elements.databaseInput.addEventListener("change", async (event) => {
@@ -176,12 +197,18 @@ elements.databaseInput.addEventListener("change", async (event) => {
   }
 
   try {
-    const contents = await file.text();
-    await requestReport("/api/intel", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: contents,
+    const database = JSON.parse(await file.text());
+    const nextLockfile = activeLockfile || await fetch("./examples/package-lock.json").then(async (response) => {
+      if (!response.ok) throw new Error("Não foi possível carregar o lockfile de demonstração.");
+      return response.json();
     });
+    const nextReport = window.DependencyAnalyzer.analyzeLockfile(nextLockfile, database);
+    activeIntel = database;
+    activeLockfile = nextLockfile;
+    renderReport(nextReport);
+    elements.errorBanner.hidden = true;
+  } catch (error) {
+    showError(`Não foi possível importar a base OSV: ${error.message}`);
   } finally {
     event.target.value = "";
   }
@@ -199,14 +226,14 @@ elements.input.addEventListener("change", async (event) => {
 
   try {
     const lockfile = JSON.parse(await file.text());
-    await requestReport("/api/analyze", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(lockfile),
+    const intel = activeIntel || await fetch("./data/demo-intel.json").then(async (response) => {
+      if (!response.ok) throw new Error("Não foi possível carregar a base local de demonstração.");
+      return response.json();
     });
+    analyzeAndRender(lockfile, intel);
+    elements.errorBanner.hidden = true;
   } catch (error) {
-    elements.errorBanner.textContent = `Não foi possível ler o arquivo JSON: ${error.message}`;
-    elements.errorBanner.hidden = false;
+    showError(`Não foi possível analisar o lockfile: ${error.message}`);
   } finally {
     event.target.value = "";
   }
@@ -226,4 +253,4 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-requestReport("/api/current");
+loadDemo();

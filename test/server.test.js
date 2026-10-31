@@ -16,6 +16,19 @@ test("importa uma base OSV offline e a usa nas análises seguintes", async (cont
 
   const address = server.address();
   const baseUrl = `http://127.0.0.1:${address.port}`;
+  const [indexResponse, analyzerResponse, demoLockResponse, demoIntelResponse] = await Promise.all([
+    fetch(`${baseUrl}/`),
+    fetch(`${baseUrl}/analyzer.js`),
+    fetch(`${baseUrl}/examples/package-lock.json`),
+    fetch(`${baseUrl}/data/demo-intel.json`),
+  ]);
+  assert.equal(indexResponse.status, 200);
+  assert.match(await indexResponse.text(), /src="\.\/analyzer\.js"/);
+  assert.equal(analyzerResponse.status, 200);
+  assert.match(await analyzerResponse.text(), /DependencyAnalyzer/);
+  assert.equal(demoLockResponse.status, 200);
+  assert.equal(demoIntelResponse.status, 200);
+
   const database = {
     vulns: [{
       id: "GHSA-offline-test",

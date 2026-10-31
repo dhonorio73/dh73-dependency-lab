@@ -4,6 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 const { analyzeLockfile, compareVersions, formatReport } = require("../src/analyzer");
 
 const projectDirectory = path.resolve(__dirname, "..");
@@ -39,6 +40,18 @@ test("compara versões SemVer incluindo pré-lançamentos", () => {
   assert.equal(compareVersions("1.2.3+build.2", "1.2.3"), 0);
   assert.equal(compareVersions("2.0.0-rc.1", "2.0.0"), -1);
   assert.equal(compareVersions("2.0.0-rc.10", "2.0.0-rc.2"), 1);
+});
+
+test("expõe o analisador como API global no navegador", () => {
+  const browserContext = vm.createContext({});
+  const analyzerSource = fs.readFileSync(path.join(projectDirectory, "src", "analyzer.js"), "utf8");
+  vm.runInContext(analyzerSource, browserContext);
+
+  assert.equal(typeof browserContext.DependencyAnalyzer.analyzeLockfile, "function");
+  assert.equal(
+    browserContext.DependencyAnalyzer.analyzeLockfile(lockfile, intel).packages.length,
+    5
+  );
 });
 
 test("importa avisos OSV npm e classifica intervalos SemVer com limites corretos", () => {
