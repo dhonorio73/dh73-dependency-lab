@@ -2,6 +2,17 @@
 
 Ferramenta educativa, local e offline para explorar dependências de projetos Node.js a partir de `package-lock.json` e de uma base OSV importada pelo usuário.
 
+## Resumo para portfolio
+
+Projeto de análise offline de dependências em Node.js, com foco em educação, transparência e segurança de software. O sistema lê `package-lock.json`, compara versões instaladas com um snapshot local ou com uma base OSV importada pelo usuário, classifica vulnerabilidades por faixa SemVer e apresenta relatórios sem depender de serviços externos.
+
+- Node.js puro, sem dependências de terceiros
+- Interface web e CLI
+- Análise local de lockfiles
+- Importação de dados OSV em JSON
+- Demonstração offline com dados fictícios
+- Deploy em GitHub Pages
+
 > **Este programa não é uma auditoria de segurança.** Os avisos da demonstração são fictícios. Uma base OSV importada também pode estar incompleta ou desatualizada; falsos positivos e vulnerabilidades não detectadas são possíveis. A ausência de aviso não comprova que um pacote ou projeto seja seguro.
 
 ## O que faz
@@ -105,3 +116,26 @@ O programa não consulta o npm, GitHub, OSV ou qualquer outro serviço. Não há
 - Dependências sem dados permanecem não classificadas. Um pacote sem aviso correspondente ainda pode conter vulnerabilidades.
 - Podem ocorrer falsos positivos, dados desatualizados e falsos negativos; este protótipo não detecta todas as vulnerabilidades.
 - O relatório não substitui análise especializada e nunca declara que o projeto analisado é “seguro”.
+
+## Analisador educativo de logs em Python
+
+O projeto também inclui um exercício local de automação e testes em Python:
+
+- `analisador_logs.py` lê eventos de um arquivo de texto fictício.
+- `logs_ficticios.txt` contém exemplos de logins, falhas e erros.
+- `relatorio_logs.txt` é gerado localmente com o resumo da análise.
+- `test_analisador_logs.py` valida a contagem de eventos e falhas por usuário.
+
+Para executar o analisador:
+
+```text
+python analisador_logs.py logs_ficticios.txt
+```
+
+Para executar os testes:
+
+```text
+python -m unittest -v test_analisador_logs.py
+```
+
+O exercício não acessa a rede, não testa sistemas externos e usa somente dados fictícios. Ele serve para praticar leitura de arquivos, contadores, geração de relatórios e testes automatizados. Os resultados não substituem uma ferramenta de monitoramento ou uma investigação de segurança.

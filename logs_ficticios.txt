@@ -1,0 +1,6 @@
+2026-11-01T09:00:00 LOGIN_OK usuario=douglas
+2026-11-01T09:02:14 LOGIN_FAILED usuario=teste
+2026-11-01T09:02:20 LOGIN_FAILED usuario=teste
+2026-11-01T09:03:01 ERROR servico=backup mensagem="arquivo indisponivel"
+2026-11-01T09:05:33 LOGIN_OK usuario=ana
+2026-11-01T09:07:45 LOGIN_FAILED usuario=teste

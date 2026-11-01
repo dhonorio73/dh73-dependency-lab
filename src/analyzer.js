@@ -259,15 +259,6 @@ function normalizeOsvDatabase(input) {
       if (!observedAt || date > observedAt) observedAt = date;
     }
 
-    const advisory = {
-      id: vulnerability.id,
-      summary: vulnerability.summary || vulnerability.details || "Descrição não informada pela base OSV.",
-      severity: osvSeverity(vulnerability),
-      affectedVersions: [],
-      affectedRanges: [],
-      fixedVersion: null,
-    };
-
     for (const affected of vulnerability.affected) {
       if (
         !affected ||
@@ -275,6 +266,15 @@ function normalizeOsvDatabase(input) {
         typeof affected.package?.ecosystem !== "string" ||
         affected.package.ecosystem.toLowerCase() !== "npm"
       ) continue;
+
+      const advisory = {
+        id: vulnerability.id,
+        summary: vulnerability.summary || vulnerability.details || "Descrição não informada pela base OSV.",
+        severity: osvSeverity(vulnerability),
+        affectedVersions: [],
+        affectedRanges: [],
+        fixedVersion: null,
+      };
 
       const ranges = affected.ranges || [];
       if (!Array.isArray(ranges)) {
