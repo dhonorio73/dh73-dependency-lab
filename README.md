@@ -140,6 +140,20 @@ python analisador_logs.py logs_ficticios.txt --follow
 
 O modo tempo real lê o conteúdo existente, aguarda linhas acrescentadas ao final do arquivo e mostra alertas para novas falhas de login e erros. Pressione `Ctrl+C` para encerrar. Ele monitora apenas o arquivo local e não acessa a rede.
 
+Para visualizar os mesmos eventos em um painel no navegador, inicie o servidor local e abra `http://127.0.0.1:4173/logs.html`:
+
+```text
+npm start
+```
+
+O painel atualiza os contadores e a tabela automaticamente a cada segundo. Ele lê apenas `logs_ficticios.txt` e exibe no máximo os 20 eventos mais recentes.
+
+### Áreas corporativas em modo de simulação
+
+Abra `http://127.0.0.1:4173/empresa.html` com o servidor local em execução. A tela permite simular perfis de Administrador, Gerência, Abastecimento, Almoxarifado, Recursos Humanos, Portaria, Segurança e Visualizador.
+
+Cada perfil recebe um menu diferente com Dashboard, Abastecimento, Almoxarifado, Recursos Humanos, Gerência, Portaria, Segurança, Relatórios e Usuários. Esta é uma simulação visual local: não há autenticação real, armazenamento de senhas ou autorização de backend. Para uso empresarial, as permissões precisam ser implementadas no servidor com identidade, sessões, criptografia, auditoria e controle de acesso real.
+
 Para executar os testes:
 
 ```text

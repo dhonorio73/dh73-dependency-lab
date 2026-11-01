@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visualizador de logs - Dh73 Lab</title>
+    <link rel="stylesheet" href="./logs.css">
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Laboratório local</p>
+          <h1>Visualizador de logs</h1>
+          <p class="subtitle">Acompanhamento seguro de <code>logs_ficticios.txt</code>.</p>
+        </div>
+        <div id="connection-status" class="status status-waiting">Conectando...</div>
+      </header>
+
+      <section class="stats" aria-label="Resumo dos eventos">
+        <article><span>Eventos</span><strong id="total-events">0</strong></article>
+        <article><span>Logins aceitos</span><strong id="successful-logins">0</strong></article>
+        <article class="warning"><span>Falhas de login</span><strong id="failed-logins">0</strong></article>
+        <article class="danger"><span>Erros</span><strong id="errors">0</strong></article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Eventos recentes</h2>
+            <p id="last-update">Aguardando dados...</p>
+          </div>
+          <span class="live-indicator"><i></i> Atualização automática</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Horário</th><th>Evento</th><th>Detalhes</th><th>Classificação</th></tr></thead>
+            <tbody id="event-rows"><tr><td colspan="4" class="empty">Nenhum evento encontrado.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="notice">Dados fictícios e locais. Esta visualização não monitora sistemas externos.</p>
+    </main>
+    <script src="./logs.js"></script>
+  </body>
+</html>

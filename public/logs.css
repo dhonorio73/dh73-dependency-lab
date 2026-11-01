@@ -1,0 +1,36 @@
+:root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #10121f; color: #f3f4ff; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top right, #26244b, #10121f 55%); }
+.dashboard { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0; }
+.header, .panel-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.eyebrow { color: #9e8cff; font-size: .78rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+h1 { margin: 8px 0; font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { margin: 0 0 8px; }
+.subtitle, .panel-heading p, .notice { color: #aeb2ca; }
+code { color: #d8d2ff; }
+.status { border-radius: 999px; padding: 10px 14px; font-size: .86rem; white-space: nowrap; }
+.status-waiting { background: #2b2d42; color: #d5d8ec; }
+.status-ok { background: #123c35; color: #7df1c9; }
+.status-error { background: #4a202d; color: #ffb4c1; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 34px 0; }
+.stats article, .panel { background: rgba(27, 30, 51, .88); border: 1px solid #363957; border-radius: 18px; box-shadow: 0 18px 45px rgba(0,0,0,.18); }
+.stats article { padding: 20px; }
+.stats span { display: block; color: #aeb2ca; font-size: .84rem; }
+.stats strong { display: block; margin-top: 10px; font-size: 2rem; }
+.warning strong { color: #f5c36b; }
+.danger strong { color: #ff8395; }
+.panel { padding: 24px; }
+.live-indicator { color: #7df1c9; font-size: .84rem; }
+.live-indicator i { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: #7df1c9; box-shadow: 0 0 0 5px rgba(125,241,201,.12); }
+.table-wrap { overflow-x: auto; margin-top: 18px; }
+table { width: 100%; border-collapse: collapse; min-width: 650px; }
+th, td { padding: 14px 12px; border-bottom: 1px solid #30334e; text-align: left; }
+th { color: #8f94b4; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+td { color: #e3e5f5; font-size: .92rem; }
+.event-badge { font-weight: 700; }
+.event-danger { color: #ff9bab; }
+.event-success { color: #7df1c9; }
+.event-neutral { color: #c4c7de; }
+.empty { text-align: center; color: #aeb2ca; }
+.notice { margin-top: 18px; font-size: .86rem; }
+@media (max-width: 760px) { .header { flex-direction: column; } .stats { grid-template-columns: repeat(2, 1fr); } }

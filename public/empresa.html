@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Áreas da empresa - Dh73 Lab</title>
+    <link rel="stylesheet" href="./empresa.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="login-screen" class="login-card">
+        <p class="eyebrow">Dh73 Enterprise Lab</p>
+        <h1>Acesso por áreas</h1>
+        <p class="muted">Protótipo local de permissões para treinamento.</p>
+        <label for="role-select">Escolha um perfil para simular</label>
+        <select id="role-select">
+          <option value="admin">Administrador</option>
+          <option value="gerencia">Gerência</option>
+          <option value="abastecimento">Abastecimento</option>
+          <option value="almoxarifado">Almoxarifado</option>
+          <option value="rh">Recursos Humanos</option>
+          <option value="portaria">Portaria</option>
+          <option value="seguranca">Segurança</option>
+          <option value="visualizador">Visualizador</option>
+        </select>
+        <button id="enter-button" class="primary-button" type="button">Entrar na simulação</button>
+        <p class="simulation-warning">Simulação local: não valida senha nem identidade.</p>
+      </section>
+
+      <section id="dashboard-screen" class="dashboard" hidden>
+        <aside class="sidebar">
+          <div class="brand"><span class="brand-mark">D</span> dh73<span class="brand-muted">enterprise</span></div>
+          <p class="sidebar-label">Áreas disponíveis</p>
+          <nav id="area-menu" class="area-menu" aria-label="Áreas da empresa"></nav>
+          <button id="logout-button" class="logout-button" type="button">Sair da simulação</button>
+        </aside>
+        <section class="content">
+          <header class="topbar"><div><span class="eyebrow">Ambiente corporativo</span><h1 id="page-title">Dashboard</h1></div><div class="profile"><span class="profile-dot"></span><span id="profile-name"></span></div></header>
+          <div id="access-notice" class="access-notice"></div>
+          <section id="area-content" class="area-content"></section>
+        </section>
+      </section>
+    </main>
+    <script src="./empresa.js"></script>
+  </body>
+</html>

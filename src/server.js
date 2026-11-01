@@ -11,6 +11,7 @@ const sharedStaticFiles = {
   "/analyzer.js": path.join(projectDirectory, "src", "analyzer.js"),
   "/data/demo-intel.json": path.join(projectDirectory, "data", "demo-intel.json"),
   "/examples/package-lock.json": path.join(projectDirectory, "examples", "package-lock.json"),
+  "/logs_ficticios.txt": path.join(projectDirectory, "logs_ficticios.txt"),
 };
 const demoLockfilePath = path.join(projectDirectory, "examples", "package-lock.json");
 const demoIntelPath = path.join(projectDirectory, "data", "demo-intel.json");
@@ -20,6 +21,7 @@ const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
 };
 
 function readJson(filePath, label) {
