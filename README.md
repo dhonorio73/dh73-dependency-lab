@@ -2,6 +2,14 @@
 
 Ferramenta educativa, local e offline para explorar dependências de projetos Node.js a partir de `package-lock.json` e de uma base OSV importada pelo usuário.
 
+## Protótipo Dh73 Enterprise
+
+![Protótipo Dh73 Enterprise](./public/dh73-enterprise-prototype.svg)
+
+O Dh73 Enterprise é uma extensão de treinamento para simular uma central corporativa de operações e segurança. A proposta é reunir, em uma interface única, informações de abastecimento, almoxarifado, recursos humanos, gerência, portaria, segurança, relatórios e usuários. Cada perfil recebe uma visão diferente das áreas disponíveis, permitindo estudar organização de permissões, fluxo de trabalho, auditoria e monitoramento.
+
+O protótipo funciona localmente com dados fictícios. Ele não coleta informações reais, não envia logs para terceiros e não implementa autenticação de produção. A finalidade é apoiar estudos de Python, JavaScript, testes automatizados, análise de logs, segurança defensiva e desenho de sistemas corporativos.
+
 ## Resumo para portfolio
 
 Projeto de análise offline de dependências em Node.js, com foco em educação, transparência e segurança de software. O sistema lê `package-lock.json`, compara versões instaladas com um snapshot local ou com uma base OSV importada pelo usuário, classifica vulnerabilidades por faixa SemVer e apresenta relatórios sem depender de serviços externos.
