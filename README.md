@@ -132,6 +132,14 @@ Para executar o analisador:
 python analisador_logs.py logs_ficticios.txt
 ```
 
+Para acompanhar novas linhas em tempo real, use `--follow`:
+
+```text
+python analisador_logs.py logs_ficticios.txt --follow
+```
+
+O modo tempo real lê o conteúdo existente, aguarda linhas acrescentadas ao final do arquivo e mostra alertas para novas falhas de login e erros. Pressione `Ctrl+C` para encerrar. Ele monitora apenas o arquivo local e não acessa a rede.
+
 Para executar os testes:
 
 ```text

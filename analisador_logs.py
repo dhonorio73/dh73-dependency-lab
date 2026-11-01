@@ -5,6 +5,43 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 import sys
+import time
+
+
+LIMITE_FALHAS = 3
+
+
+def processar_linha(
+    linha: str,
+    eventos: Counter[str],
+    falhas_por_usuario: Counter[str],
+) -> list[str]:
+    """Processa uma linha e retorna alertas gerados por ela."""
+    partes = linha.split()
+    if len(partes) < 2:
+        return []
+
+    evento = partes[1]
+    eventos[evento] += 1
+    alertas: list[str] = []
+
+    if evento == "LOGIN_FAILED":
+        for parte in partes[2:]:
+            if parte.startswith("usuario="):
+                usuario = parte.split("=", 1)[1]
+                falhas_por_usuario[usuario] += 1
+                alertas.append(f"Nova falha de login: usuario={usuario}")
+                if falhas_por_usuario[usuario] >= LIMITE_FALHAS:
+                    alertas.append(
+                        f"ALERTA: {usuario} atingiu "
+                        f"{falhas_por_usuario[usuario]} falhas de login"
+                    )
+                break
+
+    if evento == "ERROR":
+        alertas.append("ALERTA: novo erro encontrado no log")
+
+    return alertas
 
 
 def analisar_logs(caminho: Path) -> tuple[Counter[str], Counter[str]]:
@@ -13,18 +50,7 @@ def analisar_logs(caminho: Path) -> tuple[Counter[str], Counter[str]]:
     falhas_por_usuario: Counter[str] = Counter()
 
     for linha in caminho.read_text(encoding="utf-8").splitlines():
-        partes = linha.split()
-        if len(partes) < 2:
-            continue
-
-        evento = partes[1]
-        eventos[evento] += 1
-
-        if evento == "LOGIN_FAILED":
-            for parte in partes[2:]:
-                if parte.startswith("usuario="):
-                    falhas_por_usuario[parte.split("=", 1)[1]] += 1
-                    break
+        processar_linha(linha, eventos, falhas_por_usuario)
 
     return eventos, falhas_por_usuario
 
@@ -47,17 +73,52 @@ def gerar_relatorio(eventos: Counter[str], falhas: Counter[str]) -> str:
     return "\n".join(linhas)
 
 
+def salvar_relatorio(eventos: Counter[str], falhas: Counter[str]) -> None:
+    """Salva o estado atual da análise em um arquivo local."""
+    relatorio = gerar_relatorio(eventos, falhas)
+    Path("relatorio_logs.txt").write_text(relatorio + "\n", encoding="utf-8")
+
+
+def acompanhar_logs(caminho: Path, intervalo: float = 0.5) -> None:
+    """Acompanha linhas novas adicionadas ao arquivo até Ctrl+C."""
+    eventos, falhas = analisar_logs(caminho)
+    print(gerar_relatorio(eventos, falhas))
+    print("\nModo tempo real ativo. Pressione Ctrl+C para sair.")
+
+    with caminho.open("r", encoding="utf-8") as arquivo:
+        arquivo.seek(0, 2)
+        try:
+            while True:
+                linha = arquivo.readline()
+                if not linha:
+                    time.sleep(intervalo)
+                    continue
+
+                for alerta in processar_linha(linha, eventos, falhas):
+                    print(f"[{time.strftime('%H:%M:%S')}] {alerta}")
+                salvar_relatorio(eventos, falhas)
+        except KeyboardInterrupt:
+            print("\nMonitoramento encerrado.")
+
+
 def main() -> int:
-    caminho = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("logs_ficticios.txt")
+    argumentos = sys.argv[1:]
+    modo_tempo_real = "--follow" in argumentos
+    argumentos = [argumento for argumento in argumentos if argumento != "--follow"]
+    caminho = Path(argumentos[0]) if argumentos else Path("logs_ficticios.txt")
 
     if not caminho.exists():
         print(f"Arquivo nao encontrado: {caminho}")
         return 1
 
+    if modo_tempo_real:
+        acompanhar_logs(caminho)
+        return 0
+
     eventos, falhas = analisar_logs(caminho)
     relatorio = gerar_relatorio(eventos, falhas)
     print(relatorio)
-    Path("relatorio_logs.txt").write_text(relatorio + "\n", encoding="utf-8")
+    salvar_relatorio(eventos, falhas)
     print("\nRelatorio salvo em relatorio_logs.txt")
     return 0
 
