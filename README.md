@@ -23,6 +23,12 @@ Projeto de análise offline de dependências em Node.js, com foco em educação,
 
 > **Este programa não é uma auditoria de segurança.** Os avisos da demonstração são fictícios. Uma base OSV importada também pode estar incompleta ou desatualizada; falsos positivos e vulnerabilidades não detectadas são possíveis. A ausência de aviso não comprova que um pacote ou projeto seja seguro.
 
+## Comece por aqui
+
+- [Abra a interface de demonstração](https://dhonorio73.github.io/dh73-dependency-lab/) com dados fictícios.
+- Execute os testes com `npm test` após instalar Node.js.
+- Importe um arquivo OSV local para explorar avisos reais da base fornecida; confira sua origem e data.
+
 ## O que faz
 
 - Lê um `package-lock.json` no formato npm v2 ou v3 como dados. Não carrega nem executa o projeto analisado.
